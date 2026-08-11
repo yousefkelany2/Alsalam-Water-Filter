@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Dashboard\Api\Admin\AdminController;
 use App\Http\Controllers\Dashboard\Api\Category\CategoryController;
+use App\Http\Controllers\Dashboard\Api\Product\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,5 +41,16 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::post('categories', [CategoryController::class, 'store']);
     Route::get('categories/{id}', [CategoryController::class, 'show']);
     Route::post('categories/{id}', [CategoryController::class, 'update']);
+    
+//Product Routes
+    Route::get('products/trashed', [ProductController::class, 'trashed']);
+    Route::post('products/{id}/restore', [ProductController::class, 'restore']);
+    Route::delete('products/{id}/force', [ProductController::class, 'forceDelete']);
+    Route::delete('products/{id}/soft', [ProductController::class, 'softDelete']);
+
+    Route::get('products', [ProductController::class, 'index']);
+    Route::post('products', [   ProductController::class, 'store']);
+    Route::get('products/{id}', [ProductController::class, 'show']);
+    Route::post('products/{id}', [ProductController::class, 'update']);
 
 });
