@@ -3,6 +3,7 @@
 namespace App\Models\Dashboard\Product;
 
 use App\Models\Dashboard\Category\Category;
+use App\Models\Dashboard\Order\OrderItem;
 use App\Models\Dashboard\Review\Review;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
@@ -47,5 +48,10 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }
