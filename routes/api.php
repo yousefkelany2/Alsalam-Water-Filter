@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Dashboard\Api\Admin\AdminController;
 use App\Http\Controllers\Dashboard\Api\Category\CategoryController;
 use App\Http\Controllers\Dashboard\Api\Product\ProductController;
+use App\Http\Controllers\Dashboard\Api\Review\ReviewController;
 use App\Http\Controllers\Dashboard\Governorate\GovernorateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -64,5 +65,16 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::post('governorates', [GovernorateController::class, 'store']);
     Route::get('governorates/{id}', [GovernorateController::class, 'show']);
     Route::post('governorates/{id}', [GovernorateController::class, 'update']);
+
+//Review Routes
+    Route::get('reviews/trashed', [ReviewController::class, 'trashed']);
+    Route::post('reviews/{id}/restore', [ReviewController::class, 'restore']);
+    Route::delete('reviews/{id}/force', [ReviewController::class, 'forceDelete']);
+    Route::delete('reviews/{id}/soft', [ReviewController::class, 'softDelete']);
+
+    Route::get('reviews', [ReviewController::class, 'index']);
+    Route::post('reviews', [ReviewController::class, 'store']);
+    Route::get('reviews/{id}', [ReviewController::class, 'show']);
+    Route::post('reviews/{id}', [ReviewController::class, 'update']);
 
 });

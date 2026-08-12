@@ -3,6 +3,7 @@
 namespace App\Models\Dashboard\Product;
 
 use App\Models\Dashboard\Category\Category;
+use App\Models\Dashboard\Review\Review;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -41,5 +42,10 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }
