@@ -3,11 +3,11 @@
 use App\Http\Controllers\Dashboard\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Dashboard\Api\Admin\AdminController;
 use App\Http\Controllers\Dashboard\Api\Category\CategoryController;
+use App\Http\Controllers\Dashboard\Api\ContactMessage\ContactMessageController;
 use App\Http\Controllers\Dashboard\Api\Order\OrderController;
 use App\Http\Controllers\Dashboard\Api\Product\ProductController;
 use App\Http\Controllers\Dashboard\Api\Review\ReviewController;
 use App\Http\Controllers\Dashboard\Governorate\GovernorateController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Admin Authentication
@@ -88,5 +88,16 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::post('orders', [ OrderController::class, 'store']);
     Route::get('orders/{id}', [OrderController::class, 'show']);
     Route::post('orders/{id}', [OrderController::class, 'update']);
+
+//Contact Message Routes
+    Route::get('messages/trashed', [ContactMessageController::class, 'trashed']);
+    Route::post('messages/{id}/restore', [ContactMessageController::class, 'restore']);
+    Route::delete('messages/{id}/force', [ContactMessageController::class, 'forceDelete']);
+    Route::delete('messages/{id}/soft', [ContactMessageController::class, 'softDelete']);
+
+    Route::get('messages', [ContactMessageController::class, 'index']);
+    Route::post('messages', [ContactMessageController::class, 'store']);
+    Route::get('messages/{id}', [ContactMessageController::class, 'show']);
+    Route::post('messages/{id}', [ContactMessageController::class, 'update']);
 
 });
