@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Resources\Governorate;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class GovernorateResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id'            => $this->id,
+            'ar'            => $this->name['ar'] ?? '',
+            'en'            => $this->name['en'] ?? '',
+            'shippingPrice' => $this->shipping_price,
+            'status'        => $this->status,
+            'createdAt'     => $this->created_at?->format('Y-m-d H:i:s'),
+        ];
+    }
+}

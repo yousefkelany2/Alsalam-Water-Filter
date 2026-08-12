@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Dashboard\Api\Admin\AdminController;
 use App\Http\Controllers\Dashboard\Api\Category\CategoryController;
 use App\Http\Controllers\Dashboard\Api\Product\ProductController;
+use App\Http\Controllers\Dashboard\Governorate\GovernorateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +42,7 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::post('categories', [CategoryController::class, 'store']);
     Route::get('categories/{id}', [CategoryController::class, 'show']);
     Route::post('categories/{id}', [CategoryController::class, 'update']);
-    
+
 //Product Routes
     Route::get('products/trashed', [ProductController::class, 'trashed']);
     Route::post('products/{id}/restore', [ProductController::class, 'restore']);
@@ -52,5 +53,16 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::post('products', [   ProductController::class, 'store']);
     Route::get('products/{id}', [ProductController::class, 'show']);
     Route::post('products/{id}', [ProductController::class, 'update']);
+
+//Governorate Routes
+    Route::get('governorates/trashed', [GovernorateController::class, 'trashed']);
+    Route::post('governorates/{id}/restore', [GovernorateController::class, 'restore']);
+    Route::delete('governorates/{id}/force', [GovernorateController::class, 'forceDelete']);
+    Route::delete('governorates/{id}/soft', [GovernorateController::class, 'softDelete']);
+
+    Route::get('governorates', [GovernorateController::class, 'index']);
+    Route::post('governorates', [GovernorateController::class, 'store']);
+    Route::get('governorates/{id}', [GovernorateController::class, 'show']);
+    Route::post('governorates/{id}', [GovernorateController::class, 'update']);
 
 });
