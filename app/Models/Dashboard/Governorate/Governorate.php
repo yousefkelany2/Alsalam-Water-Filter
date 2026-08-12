@@ -2,6 +2,7 @@
 
 namespace App\Models\Dashboard\Governorate;
 
+use App\Models\Dashboard\Order\Order;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,5 +18,10 @@ class Governorate extends Model
             'name'           => 'array',
             'shipping_price' => 'float',
         ];
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

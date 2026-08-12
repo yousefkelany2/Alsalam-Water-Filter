@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Dashboard\Api\Admin\AdminController;
 use App\Http\Controllers\Dashboard\Api\Category\CategoryController;
+use App\Http\Controllers\Dashboard\Api\Order\OrderController;
 use App\Http\Controllers\Dashboard\Api\Product\ProductController;
 use App\Http\Controllers\Dashboard\Api\Review\ReviewController;
 use App\Http\Controllers\Dashboard\Governorate\GovernorateController;
@@ -76,5 +77,16 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::post('reviews', [ReviewController::class, 'store']);
     Route::get('reviews/{id}', [ReviewController::class, 'show']);
     Route::post('reviews/{id}', [ReviewController::class, 'update']);
+
+//Order Routes
+    Route::get('orders/trashed', [OrderController::class, 'trashed']);
+    Route::post('orders/{id}/restore', [OrderController::class, 'restore']);
+    Route::delete('orders/{id}/force', [OrderController::class, 'forceDelete']);
+    Route::delete('orders/{id}/soft', [OrderController::class, 'softDelete']);
+
+    Route::get('orders', [OrderController::class, 'index']);
+    Route::post('orders', [ OrderController::class, 'store']);
+    Route::get('orders/{id}', [OrderController::class, 'show']);
+    Route::post('orders/{id}', [OrderController::class, 'update']);
 
 });
