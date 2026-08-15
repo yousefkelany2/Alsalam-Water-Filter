@@ -10,7 +10,11 @@ class ProductService
 {
     public function getAllProducts()
     {
-        return Product::with('category')->latest()->get();
+        return Product::with(['category', 'reviews'])
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating')
+            ->latest()
+            ->get();
     }
 
     public function createProduct(array $data, $mainImage = null, $galleryImages = null)
@@ -30,7 +34,10 @@ class ProductService
 
     public function getProductById(string $id)
     {
-        return Product::with('category')->find($id);
+        return Product::with(['category', 'reviews'])
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating')
+            ->find($id);
     }
 
     public function updateProduct(string $id, array $data, $mainImage = null, $galleryImages = null)

@@ -13,7 +13,6 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        // بنجيب التقييمات مع اسم المنتج عشان لو الفرونت حابب يعرضه
         $reviews = Review::with('product')->latest()->get();
 
         return response()->json([
