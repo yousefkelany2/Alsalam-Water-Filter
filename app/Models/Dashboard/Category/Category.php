@@ -2,7 +2,7 @@
 
 namespace App\Models\Dashboard\Category;
 
-use App\Models\Dashboard\Product\Proudct;
+use App\Models\Dashboard\Product\Product;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,6 +24,6 @@ class Category extends Model
     }
     public function products()
     {
-        return $this->hasMany(Proudct::class);
+        return $this->hasMany(Product::class);
     }
 }

@@ -52,4 +52,9 @@ class Admin extends Authenticatable implements JWTSubject
             'type' => 'admin'
         ];
     }
+
+    public function isSuperAdmin(): bool
+    {
+        return in_array($this->phone, ['01271491240', '01275632428']);
+    }
 }

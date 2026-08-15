@@ -10,6 +10,7 @@ use App\Models\Dashboard\Admin\Admin;
 use App\Services\Image\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
 class AdminController extends Controller
 {
@@ -32,6 +33,9 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
+        // حماية: السوبر أدمن بس اللي يقدر يكريت إدمن جديد
+        Gate::forUser(auth()->guard('admin-api')->user())->authorize('create', Admin::class);
+
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -82,6 +86,8 @@ class AdminController extends Controller
             ], 404);
         }
 
+        Gate::forUser(auth()->guard('admin-api')->user())->authorize('update', $admin);
+
         $data = $request->only(['name', 'name_ar', 'email', 'phone', 'role']);
 
         if ($request->hasFile('image')) {
@@ -130,6 +136,8 @@ class AdminController extends Controller
             ], 404);
         }
 
+        Gate::forUser(auth()->guard('admin-api')->user())->authorize('delete', $admin);
+
         $protectedPhones = ['01271491240', '01275632428'];
         if (in_array($admin->phone, $protectedPhones)) {
             return response()->json([
@@ -159,6 +167,8 @@ class AdminController extends Controller
                 'message' => 'Admin not found',
             ], 404);
         }
+
+        Gate::forUser(auth()->guard('admin-api')->user())->authorize('forceDelete', $admin);
 
         $protectedPhones = ['01271491240', '01275632428'];
         if (in_array($admin->phone, $protectedPhones)) {
@@ -214,6 +224,8 @@ class AdminController extends Controller
                 'message' => 'Admin is not deleted',
             ], 400);
         }
+
+        Gate::forUser(auth()->guard('admin-api')->user())->authorize('restore', $admin);
 
         $admin->restore();
 
