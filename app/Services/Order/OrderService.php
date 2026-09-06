@@ -7,6 +7,7 @@ use App\Models\Dashboard\Order\Order;
 use App\Models\Dashboard\Product\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Exception;
 
 class OrderService
 {
@@ -27,6 +28,19 @@ class OrderService
                 $product = Product::find($item['id']);
 
                 if (!$product) continue;
+
+                if ($product->stock_qty < $item['qty']) {
+                    throw new Exception("The requested quantity for product ({$product->name}) is not available in stock.");
+                }
+
+                $product->decrement('stock_qty', $item['qty']);
+
+                if ($product->stock_qty <= 0) {
+                    $product->update([
+                        'in_stock' => false,
+                        'stock_qty' => 0
+                    ]);
+                }
 
                 $lineTotal = $product->price * $item['qty'];
                 $subtotal += $lineTotal;
@@ -65,10 +79,9 @@ class OrderService
             DB::commit();
 
             return $order->load(['items.product', 'governorate']);
-
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
-            return null;
+            throw $e;
         }
     }
 

@@ -33,12 +33,11 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
-        // حماية: السوبر أدمن بس اللي يقدر يكريت إدمن جديد
         Gate::forUser(auth()->guard('admin-api')->user())->authorize('create', Admin::class);
 
         $data = $request->validated();
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $data['image'] = ImageService::saveImage($request->file('image'), 'admins');
         }
 
@@ -90,7 +89,7 @@ class AdminController extends Controller
 
         $data = $request->only(['name', 'name_ar', 'email', 'phone', 'role']);
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
 
             ImageService::deleteImage($admin->image);
 
