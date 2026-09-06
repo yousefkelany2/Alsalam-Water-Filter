@@ -8,6 +8,11 @@ use App\Http\Controllers\Dashboard\Api\Order\OrderController;
 use App\Http\Controllers\Dashboard\Api\Product\ProductController;
 use App\Http\Controllers\Dashboard\Api\Review\ReviewController;
 use App\Http\Controllers\Dashboard\Governorate\GovernorateController;
+use App\Http\Controllers\Website\Api\Category\PublicCategoryController;
+use App\Http\Controllers\Website\Api\Contact\PublicContactController;
+use App\Http\Controllers\Website\Api\Order\PublicOrderController;
+use App\Http\Controllers\Website\Api\Product\PublicProductController;
+use App\Http\Controllers\Website\Api\Review\PublicReviewController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Authentication
@@ -18,12 +23,12 @@ Route::prefix('authAdmin')->group(function () {
 //Admin Routes with Middleware
 Route::prefix('admin')->middleware(['is.admin'])->group(function () {
 
-//Admin Authentication
+    //Admin Authentication
     Route::post('logout', [AdminAuthController::class, 'logout']);
     Route::post('refresh', [AdminAuthController::class, 'refresh']);
     Route::get('me', [AdminAuthController::class, 'me']);
     Route::get('profile', [AdminController::class, 'profile']);
-//Admin Routes
+    //Admin Routes
     Route::get('admins/trashed', [AdminController::class, 'trashed']);
     Route::post('admins/{id}/restore', [AdminController::class, 'restore']);
     Route::delete('admins/{id}/force', [AdminController::class, 'forceDelete']);
@@ -34,7 +39,7 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::get('admins/{id}', [AdminController::class, 'show']);
     Route::post('admins/{id}', [AdminController::class, 'update']);
 
-//Category Routes
+    //Category Routes
     Route::get('categories/trashed', [CategoryController::class, 'trashed']);
     Route::post('categories/{id}/restore', [CategoryController::class, 'restore']);
     Route::delete('categories/{id}/force', [CategoryController::class, 'forceDelete']);
@@ -45,18 +50,18 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::get('categories/{id}', [CategoryController::class, 'show']);
     Route::post('categories/{id}', [CategoryController::class, 'update']);
 
-//Product Routes
+    //Product Routes
     Route::get('products/trashed', [ProductController::class, 'trashed']);
     Route::post('products/{id}/restore', [ProductController::class, 'restore']);
     Route::delete('products/{id}/force', [ProductController::class, 'forceDelete']);
     Route::delete('products/{id}/soft', [ProductController::class, 'softDelete']);
 
     Route::get('products', [ProductController::class, 'index']);
-    Route::post('products', [   ProductController::class, 'store']);
+    Route::post('products', [ProductController::class, 'store']);
     Route::get('products/{id}', [ProductController::class, 'show']);
     Route::post('products/{id}', [ProductController::class, 'update']);
 
-//Governorate Routes
+    //Governorate Routes
     Route::get('governorates/trashed', [GovernorateController::class, 'trashed']);
     Route::post('governorates/{id}/restore', [GovernorateController::class, 'restore']);
     Route::delete('governorates/{id}/force', [GovernorateController::class, 'forceDelete']);
@@ -67,7 +72,7 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::get('governorates/{id}', [GovernorateController::class, 'show']);
     Route::post('governorates/{id}', [GovernorateController::class, 'update']);
 
-//Review Routes
+    //Review Routes
     Route::get('reviews/trashed', [ReviewController::class, 'trashed']);
     Route::post('reviews/{id}/restore', [ReviewController::class, 'restore']);
     Route::delete('reviews/{id}/force', [ReviewController::class, 'forceDelete']);
@@ -78,18 +83,18 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::get('reviews/{id}', [ReviewController::class, 'show']);
     Route::post('reviews/{id}', [ReviewController::class, 'update']);
 
-//Order Routes
+    //Order Routes
     Route::get('orders/trashed', [OrderController::class, 'trashed']);
     Route::post('orders/{id}/restore', [OrderController::class, 'restore']);
     Route::delete('orders/{id}/force', [OrderController::class, 'forceDelete']);
     Route::delete('orders/{id}/soft', [OrderController::class, 'softDelete']);
 
     Route::get('orders', [OrderController::class, 'index']);
-    Route::post('orders', [ OrderController::class, 'store']);
+    Route::post('orders', [OrderController::class, 'store']);
     Route::get('orders/{id}', [OrderController::class, 'show']);
     Route::post('orders/{id}', [OrderController::class, 'update']);
 
-//Contact Message Routes
+    //Contact Message Routes
     Route::get('messages/trashed', [ContactMessageController::class, 'trashed']);
     Route::post('messages/{id}/restore', [ContactMessageController::class, 'restore']);
     Route::delete('messages/{id}/force', [ContactMessageController::class, 'forceDelete']);
@@ -99,5 +104,29 @@ Route::prefix('admin')->middleware(['is.admin'])->group(function () {
     Route::post('messages', [ContactMessageController::class, 'store']);
     Route::get('messages/{id}', [ContactMessageController::class, 'show']);
     Route::post('messages/{id}', [ContactMessageController::class, 'update']);
+});
 
+Route::prefix('public')->group(function () {
+
+    //Categories
+    Route::get('categories', [PublicCategoryController::class, 'index']);
+    Route::get('categories/{id}', [PublicCategoryController::class, 'show']);
+
+    //Products
+    Route::get('products', [PublicProductController::class, 'index']);
+    Route::get('products/{id}', [PublicProductController::class, 'show']);
+    Route::get('products/{id}/related', [PublicProductController::class, 'related']);
+
+    //Orders
+    Route::post('orders', [PublicOrderController::class, 'store']);
+    Route::get('orders/{orderNumber}', [PublicOrderController::class, 'show']);
+
+    //Contact Messages
+    Route::post('contact', [PublicContactController::class, 'store']);
+
+    //Reviews
+    Route::get('reviews', [PublicReviewController::class, 'index']);
+    Route::post('reviews', [PublicReviewController::class, 'store']);
+
+     Route::get('governorates', [GovernorateController::class, 'index']);
 });

@@ -34,9 +34,9 @@ class ProductRequest extends FormRequest
             'old_price'        => 'nullable|numeric|min:0',
             'stock_qty'        => 'required|integer|min:0',
 
-            'image'            => 'nullable|image|mimes:jpeg,png,jpg,webp,jfif|max:2048',
+            'image'            => 'nullable|image|mimes:jpeg,png,jpg,webp,jfif,avif|max:2048',
             'gallery'          => 'nullable|array',
-            'gallery.*'        => 'image|mimes:jpeg,png,jpg,webp,jfif|max:2048',
+            'gallery.*'        => 'image|mimes:jpeg,png,jpg,webp,jfif,avif|max:2048',
 
             'specifications'   => 'nullable|array',
             'features'         => 'nullable|array',
